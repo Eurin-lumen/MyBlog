@@ -1,11 +1,23 @@
+<?php 
+require_once "includes/constantes.php";
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Clean Blog - Start Bootstrap Theme</title>
+        <meta name="description" content="Blog de découverte et de culture genérale" />
+        <meta name="author" content="Eurin HASH" />
+        <title>
+        <?= 
+            //Automatisation du titre de la page dans chaque partie
+            // Application de la constante pour le titre
+          isset($title)
+          ? $title .' - '. WEBSITE_NAME
+          : WEBSITE_NAME .'- Explorer Mon Univers';
+        ?>
+
+         </title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
