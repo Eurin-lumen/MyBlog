@@ -26,34 +26,35 @@ require_once "config/db.php";
             $errors = [];
             
             $pseudoLog = htmlspecialchars($_POST['pseudo']);
+            $password = sha1($_POST['password']);
             
-            if(!empty($pseudoLog)){
-                $req = $db->prepare("SELECT * FROM users WHERE (pseudo = :pseudo or email = :pseudo)");
-                $req->execute([':pseudo' => $pseudoLog]);
-                $user = $req->fetch();
+            if(!empty($pseudoLog) && !empty($_POST['password'])){
+                $req = $db->prepare("SELECT *  FROM users WHERE pseudo = ? OR email = ? AND motDePasse = ?");
+                $req->execute([$pseudoLog, $password]);
+                $user = $req->rowCount();
+                if($user == true){
+                    $_SESSION['id'] = $user['id'];
+                    $_SESSION['pseudo'] = $user['pseudo'];
+                    $_SESSION['nom'] = $user['nom'];
+                    $_SESSION['prenoms'] = $user['prenoms'];
+                    $_SESSION['email'] = $user['email'];
+                    header("Location:profil.php?id=".$_SESSION['id']);
+                    exit(); 
+                }else{
+              
+                    $errors['pass'] = "Identifiants incorrecte";
+                    echo '<pre>';
+                    var_dump($user);
+                    echo '</pre>';
+
+                }
                // var_dump($user);
             }else{
-                $errors['pseudoLog'] = "Identifiant incorrecte ou Champs vide";
-                
-
-            }
-            if(!empty($_POST['password'])){
-                password_verify($_POST['password'], $user->motDePasse);
-                $_SESSION['id'] = $user['id'];
-                $_SESSION['pseudo'] = $user['pseudo'];
-                $_SESSION['nom'] = $user['nom'];
-                $_SESSION['prenoms'] = $user['prenoms'];
-                $_SESSION['email'] = $user['email'];
-                header("Location:profil.php?id=".$_SESSION['id']);
-                exit();
-
-            }else{
-                $errors['pass'] = "votre mot de passe est incorrecte";
-
+                $errors['pseudoLog'] = " Champs vide : Veuillez complèter tout les champs";
+               
             }
 
-            
-        }
+
         
         
         ?>
@@ -102,5 +103,3 @@ require_once "config/db.php";
     </div>
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </div>
-
-    <?php include "includes/_footer.php"; ?>
