@@ -9,8 +9,8 @@ include "includes/_nav.php";
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="site-heading">
-                            <h1>Clean Blog</h1>
-                            <span class="subheading">A Blog Theme by Start Bootstrap</span>
+                            <h1>MyBlog</h1>
+                            <span class="subheading">Explorez un univers passionnante et de bonne humeur</span>
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@ include "includes/_nav.php";
                         </a>
                         <p class="post-meta">
                             Posted by
-                            <a href="#!">Start Bootstrap</a>
+                            <a href="#!">MyBlog</a>
                             on September 24, 2022
                         </p>
                     </div>
@@ -39,7 +39,7 @@ include "includes/_nav.php";
                         <a href="post.php"><h2 class="post-title">I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.</h2></a>
                         <p class="post-meta">
                             Posted by
-                            <a href="#!">Start Bootstrap</a>
+                            <a href="#!">MyBlog</a>
                             on September 18, 2022
                         </p>
                     </div>
@@ -53,7 +53,7 @@ include "includes/_nav.php";
                         </a>
                         <p class="post-meta">
                             Posted by
-                            <a href="#!">Start Bootstrap</a>
+                            <a href="#!">MyBlog</a>
                             on August 24, 2022
                         </p>
                     </div>
@@ -67,7 +67,7 @@ include "includes/_nav.php";
                         </a>
                         <p class="post-meta">
                             Posted by
-                            <a href="#!">Start Bootstrap</a>
+                            <a href="#!">MyBlog</a>
                             on July 8, 2022
                         </p>
                     </div>
