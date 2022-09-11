@@ -29,15 +29,16 @@ if (isset($_POST['login'])) {
     $password = sha1($_POST['password']);
 
     if (!empty($pseudoLog) && !empty($_POST['password'])) {
-        $req = $db->prepare("SELECT *  FROM users WHERE pseudo = ? OR email = ? AND motDePasse = ?");
-        $req->execute([$pseudoLog, $password]);
+        $req = $db->prepare("SELECT *  FROM users WHERE pseudo = :pseudo OR email = :pseudo  AND motDePasse = :password");
+        $req->execute([':pseudo'=> $pseudoLog, ':password' => $password]);
         $user = $req->rowCount();
         if ($user == true) {
-            $_SESSION['id'] = $user['id'];
-            $_SESSION['pseudo'] = $user['pseudo'];
-            $_SESSION['nom'] = $user['nom'];
-            $_SESSION['prenoms'] = $user['prenoms'];
-            $_SESSION['email'] = $user['email'];
+            $userinfo = $req->fetch();
+            $_SESSION['id'] = $userinfo['id'];
+            $_SESSION['pseudo'] = $userinfo['pseudo'];
+            $_SESSION['nom'] = $userinfo['nom'];
+            $_SESSION['prenoms'] = $userinfo['prenoms'];
+            $_SESSION['email'] = $userinfo['email'];
             header("Location:profil.php?id=".$_SESSION['id']);
             exit();
         } else {
