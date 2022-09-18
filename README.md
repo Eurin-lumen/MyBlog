@@ -8,3 +8,7 @@
     Table : users (id , pseudo, nom, prenoms, email, mot de passe, date)
     Table : contact (id, nom, email, phone, message , date)*
 
+# changement du sytème de cryptage 
+
+    Avant : password_hash => BCRYPT 
+    Maintenant = sha1

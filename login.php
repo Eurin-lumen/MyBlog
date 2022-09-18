@@ -29,7 +29,7 @@ if (isset($_POST['login'])) {
     $password = sha1($_POST['password']);
 
     if (!empty($pseudoLog) && !empty($_POST['password'])) {
-        $req = $db->prepare("SELECT *  FROM users WHERE pseudo = :pseudo OR email = :pseudo  AND motDePasse = :password");
+        $req = $db->prepare("SELECT * FROM users WHERE pseudo = :pseudo OR email = :pseudo  AND motDePasse = :password");
         $req->execute([':pseudo'=> $pseudoLog, ':password' => $password]);
         $user = $req->rowCount();
         if ($user == true) {

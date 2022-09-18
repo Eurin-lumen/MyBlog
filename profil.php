@@ -1,5 +1,9 @@
 <?php 
 session_start();
- echo "Bienvenu ".$_SESSION['pseudo'];  
+$title = "profil";
+
+
+ echo "Bienvenu ".$_SESSION['pseudo'];
+
 
 ?>
