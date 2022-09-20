@@ -20,47 +20,46 @@ require_once "config/db.php";
             </div>
         </header>
         <?php 
-        // Traitement de formulaire 
-
-if (isset($_POST['login'])) {
-    $errors = [];
-
-    $pseudoLog = htmlspecialchars($_POST['pseudo']);
-    $password = sha1($_POST['password']);
-
-    if (!empty($pseudoLog) && !empty($_POST['password'])) {
-        $req = $db->prepare("SELECT * FROM users WHERE pseudo = :pseudo OR email = :pseudo  AND motDePasse = :password");
-        $req->execute([':pseudo'=> $pseudoLog, ':password' => $password]);
-        $user = $req->rowCount();
-        if ($user == true) {
-            $userinfo = $req->fetch();
-            $_SESSION['id'] = $userinfo['id'];
-            $_SESSION['pseudo'] = $userinfo['pseudo'];
-            $_SESSION['nom'] = $userinfo['nom'];
-            $_SESSION['prenoms'] = $userinfo['prenoms'];
-            $_SESSION['email'] = $userinfo['email'];
-            header("Location:profil.php?id=".$_SESSION['id']);
-            exit();
-        } else {
-            $errors['pass'] = "Identifiants incorrecte";
-            echo '<pre>';
-            var_dump($user);
-            echo '</pre>';
-        }
-    // var_dump($user);
-    } else {
-        $errors['pseudoLog'] = " Champs vide : Veuillez complèter tout les champs";
-    }
-}
         
-        
+         include_once 'config/db.php';
+         if (!empty($_POST)) {
+           $resultsAlerts = array();
+           global $db;
+           global $req;
+         
+           /*if(isset($_SESSION['authvend'])){
+             header('Location:dashbord-client.php');
+               exit();
+             
+           }*/
+       
+           if (!empty($_POST) && !empty($_POST['pseudo']) && !empty($_POST['motDePasse'])) {
+               $req = $db->prepare("SELECT * FROM users WHERE ( pseudo = :pseudo OR email = :pseudo)");
+               $req->execute([':pseudo' =>$_POST['pseudo']]);
+               $user = $req->fetch();
+
+               if(password_verify($_POST['motDePasse'], $user->motDePasse)){
+                 header('Location:profil.php');
+                 exit();
+                 
+               }else{
+                 $resultsAlerts['passwordAlerte'] = "Mot de passe incorrecte";
+                 echo '<pre>';
+                 echo var_dump($_POST['motDePasse']);
+                 echo '</pre>';
+               }
+           } else {
+               $resultsAlerts['connexionform'] = "Identifiant ou mot de passe incorrect";
+           }
+       }
+
         ?>
 <div class="card">
   <div class="card-header text-center"> Connexion </div>
    <!--Alert -->
-   <?php if(!empty($errors)): ?>
+   <?php if(!empty($resultsAlerts)): ?>
         <div class="alert alert-danger alert-dismissible text-center" role="alert">
-            <?php echo (implode("<br/>", $errors)); ?>
+            <?php echo (implode("<br/>", $resultsAlerts)); ?>
            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
   <?php endif ?>
@@ -74,7 +73,7 @@ if (isset($_POST['login'])) {
             </div>
 
             <div class="form-floating mb-3">
-                <input class="form-control" id="motDePasse" name="password" type="password" placeholder="Mot de passe" data-sb-validations="required" />
+                <input class="form-control" id="motDePasse" name="motDePasse" type="password" placeholder="Mot de passe" data-sb-validations="required" />
                 <label for="motDePasse">Mot de passe</label>
                 <div class="invalid-feedback" data-sb-feedback="motDePasse:required">Votre Mot de passe est obligatoire.</div>
             </div>

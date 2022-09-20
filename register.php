@@ -77,8 +77,8 @@ require_once "config/db.php";
          
             if(empty($errors)){
                 $req = $db->prepare("INSERT INTO users (pseudo, nom, prenoms, email, motDePasse) VALUES (?, ?, ?, ?, ?)");
-               // $password = password_hash($_POST['motDePasse'], PASSWORD_BCRYPT);
-                $password = sha1($_POST['password']);
+                $password = password_hash($_POST['motDePasse'], PASSWORD_BCRYPT);
+                //$password = sha1($_POST['password']);
                 $req->execute([ $pseudo,
                                 $nom, 
                                 $prenoms, 
